@@ -11,7 +11,7 @@ public class AdminController {
 
     @GetMapping("")
     public String home() {
-        System.out.println("si entraaa");
+
         return "admin/home";
     }
 
