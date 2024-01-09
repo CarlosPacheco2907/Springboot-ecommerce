@@ -13,17 +13,22 @@
 
 
     <!-- Bootstrap core CSS -->
-    <link th:href="@{vendor/bootstrap/css/bootstrap.min.css}"  rel="stylesheet">
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"  rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link th:href="@{css/heroic-features.css}" rel="stylesheet">
+    <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
 
 </head>
 
 <body>
 
 <!-- Navigation -->
+<!--
 <div th:include = "admin/template_admin.html::header"></div>
+-->
+
+<div th:insert="~{admin/template_admin.html::header}"></div>
+
 
 <!-- Page Content -->
 <div class="container">
@@ -90,13 +95,15 @@
 </div>
 <!-- /.container -->
 
-<!-- Footer -->
-<div th:include = "admin/template_admin.html::footer"></div>
+<!--&lt;!&ndash; Footer &ndash;&gt;-->
+<!--<div th:include = "admin/template_admin.html::footer"></div>-->
+
+<div th:insert="~{admin/template_admin.html::footer}"></div>
 
 
 <!-- Bootstrap core JavaScript -->
-<script th:src="@{vendor/jquery/jquery.min.js}"></script>
-<script th:src="@{vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
 </body>
 
