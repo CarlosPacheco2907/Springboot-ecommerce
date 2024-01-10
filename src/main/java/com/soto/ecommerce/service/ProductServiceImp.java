@@ -4,13 +4,13 @@ import com.soto.ecommerce.persistence.entity.Product;
 import com.soto.ecommerce.persistence.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProductServiceImp implements ProductService{
+public class ProductServiceImp implements ProductService {
 
     private final ProductRepository productRepository;
-
 
     public ProductServiceImp(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -18,7 +18,7 @@ public class ProductServiceImp implements ProductService{
 
     @Override
     public Product saveProduct(Product product) {
-       return productRepository.save(product);
+        return productRepository.save(product);
     }
 
     @Override
@@ -34,6 +34,11 @@ public class ProductServiceImp implements ProductService{
     @Override
     public void deleteProduct(Integer id) {
         productRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Product> findAll() {
+        return productRepository.findAll();
     }
 
 
