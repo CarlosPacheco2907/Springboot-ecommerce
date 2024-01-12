@@ -115,13 +115,27 @@ public class ProductController {
 
 
 
+    /**
+     * Controller method handling GET requests to delete a product by ID.
+     *
+     * @param id The ID of the product to be deleted.
+     * @return A string indicating a redirect to the "/products" route after successfully deleting the product.
+     */
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Integer id){
+    public String delete(@PathVariable Integer id) {
+        // This method is triggered when a GET request is made to the "/delete/{id}" route.
 
-        LOGGER.info("Product id displayed for delete {}",id);
-        //productService.deleteProduct(id);
+        // Logs information in the LOGGER indicating the ID of the product to be deleted.
+        LOGGER.info("Product ID displayed for delete {}", id);
+
+        // Calls the deleteProduct method of the productService to delete the product with the provided ID.
+        productService.deleteProduct(id);
+
+        // Returns a string indicating a redirect to the "/products" route after successfully deleting the product.
         return "redirect:/products";
     }
+
+
 
 
 
