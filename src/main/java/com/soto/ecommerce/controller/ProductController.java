@@ -95,8 +95,6 @@ public class ProductController {
      * @param model Model to pass data to the view
      * @return View name for the product edit form
      */
-
-
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
         Product product = new Product();
@@ -114,4 +112,20 @@ public class ProductController {
 
         return "products/edit";
     }
+
+
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Integer id){
+
+        LOGGER.info("Product id displayed for delete {}",id);
+        //productService.deleteProduct(id);
+        return "redirect:/products";
+    }
+
+
+
+
+
+
 }

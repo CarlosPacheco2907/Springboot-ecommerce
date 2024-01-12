@@ -63,8 +63,13 @@
             <td th:text="${product.quantity}"></td>
             <td th:text="${product.price}"></td>
 
-            <td><a class="btn btn-warning" th:href="@{/products/edit/{id} (id=${product.id})  }">Editar</a></td>
-            <td><a class="btn btn-danger" href="">Eliminar</a></td>
+            <td><a class="btn btn-warning" th:href="@{/products/edit/{id} (id=${product.id})}">Editar</a></td>
+
+
+            <td>
+                <a class="btn btn-danger" th:onclick="'confirmDelete(\'' + ${product.id} + '\')'">Eliminar</a>
+            </td>
+
         </tr>
         </tbody>
     </table>
@@ -76,10 +81,13 @@
 <div th:insert="~{admin/template_admin.html::footer}"></div>
 
 
-
 <!-- Bootstrap core JavaScript -->
 <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
 <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/confirmDelete.js}" defer="defer"></script>
+<!-- Incluir SweetAlert2 desde la CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 
 </body>
 
