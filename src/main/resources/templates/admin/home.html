@@ -13,10 +13,13 @@
 
 
     <!-- Bootstrap core CSS -->
-    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"  rel="stylesheet">
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+    <link th:href="@{/css/cards.css}" rel="stylesheet">
+
+
 
 </head>
 
@@ -39,53 +42,38 @@
         <p class="lead">Tu tienda de productos en Línea</p>
     </header>
 
-    <!-- Page Features -->
+    <!-- Page Features --><!--
     <div class="row text-center">
 
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card h-100">
-                <img class="card-img-top" src="http://placehold.it/500x325" alt="">
-                <div class="card-body">
-                    <p class="card-text">Nombre del producto.</p>
-                </div>
-                <div class="card-footer">
-                    <a href="productohome.html" class="btn btn-success">Ver producto</a>
-                </div>
-            </div>
-        </div>
+                <div class="col-lg-3 col-md-6 mb-4" th:each="product:${products}">
+                    <div class="card h-100">
+                        <img class="card-img-top" th:src="@{/images/{img}  (img=${product.image}) }" alt="">
 
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card h-100">
-                <img class="card-img-top" src="http://placehold.it/500x325" alt="">
-                <div class="card-body">
-                    <p class="card-text">Nombre del producto.</p>
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="btn btn-success">Ver producto</a>
-                </div>
-            </div>
-        </div>
+                        <div class="card-body">
+                            <p class="card-text" th:text="${product.name}">Nombre del producto.</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="productohome.html" class="btn btn-success">Ver producto</a>
+                        </div>
+                    </div>
+                </div>-->
 
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card h-100">
-                <img class="card-img-top" src="http://placehold.it/500x325" alt="">
-                <div class="card-body">
-                    <p class="card-text">Nombre del producto.</p>
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="btn btn-success">Ver producto</a>
-                </div>
+
+        <!--        cards-->
+    <div class="row text-center ">
+
+        <div class="card h-90 col-lg-3 col-md-6 mb-4" th:each="product:${products}">
+
+            <div class="imgBox">
+                <img class="img" th:src="@{/images/{img}  (img=${product.image}) }" th:alt="${product.name}" >
             </div>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card h-100">
-                <img class="card-img-top" src="http://placehold.it/500x325" alt="">
-                <div class="card-body">
-                    <p class="card-text">Nombre del producto.</p>
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="btn btn-success">Ver producto</a>
-                </div>
+
+
+
+
+            <div class="contentBox">
+                <h3 th:text="${product.name}"></h3>
+                <a href="#" class="show">Ver producto</a>
             </div>
         </div>
 

@@ -4,12 +4,15 @@ import com.soto.ecommerce.persistence.entity.Product;
 import com.soto.ecommerce.persistence.entity.User;
 import com.soto.ecommerce.persistence.entity.UserType;
 import com.soto.ecommerce.service.ProductService;
+import com.soto.ecommerce.service.UploadFileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -23,14 +26,16 @@ public class ProductController {
     private final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
 
     private final ProductService productService;
+    private final UploadFileService uploadFileService;
 
     /**
      * Constructor to inject ProductService dependency.
      *
      * @param productService ProductService instance
      */
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, UploadFileService uploadFileService) {
         this.productService = productService;
+        this.uploadFileService = uploadFileService;
     }
 
     /**
@@ -42,6 +47,7 @@ public class ProductController {
     @GetMapping("")
     public String showProducts(Model model) {
         model.addAttribute("products", productService.findAll());
+
 
         for (Product product : productService.findAll()) {
             LOGGER.info("Product list: {}", product);
@@ -61,24 +67,37 @@ public class ProductController {
     }
 
     /**
-     * Save a new product or update an existing one.
+     * Save a new product
      *
      * @param product Product object to be saved or updated
      * @return Redirect to the controller method handling the product list page after saving or updating
      */
     @PostMapping("/save")
-    public String save(Product product) {
+    public String save(Product product, @RequestParam("img") MultipartFile file) throws IOException {
         // Creating a sample user with UserType.ADMIN
         User user = new User(1, "", "", "", "", "", "", UserType.ADMIN);
         product.setUser(user);
 
-        // If the product has a non-null ID, it is interpreted as an update
-        if (product.getId() != null) {
-            LOGGER.info("Updating existing product: {}", product);
-            // In this case, Hibernate will update the product instead of inserting it
+
+        if (!file.isEmpty()) { //if the file image is not null
+
+            // Image Upload to File System
+            // Invokes the service to save the image to the file system.
+            // Parameters:
+            //   - file: The image file to be uploaded, represented as a MultipartFile object.
+            // Returns:
+            //   - nameImage: The name of the saved image file. If the file is empty, "default.jpg" is returned.
+            String nameImage = uploadFileService.saveImage(file);
+
+            //Saves the image name in our product object.
+            product.setImage(nameImage);
+            LOGGER.info("Product to be created with image: {}", product);
         } else {
-            LOGGER.info("Product to be created: {}", product);
+            //if the image file is null
+            product.setImage("default.jpg");
+            LOGGER.info("Product to be created without image {}", product);
         }
+
 
         // Saving the product using the ProductService
         productService.saveProduct(product);
@@ -114,6 +133,57 @@ public class ProductController {
     }
 
 
+    /**
+     * Handles POST requests to update a product.
+     *
+     * @param product The product to be updated. It is bound from the request data.
+     * @param file    The MultipartFile representing the image of the product.
+     * @return A String representing the view or redirect URL. Redirects to "/products" after updating.
+     */
+    @PostMapping("/update")
+    public String update(@ModelAttribute("product") Product product, @RequestParam("img") MultipartFile file) throws IOException {
+        // Creates a sample user with UserType.ADMIN
+        User user = new User(1, "", "", "", "", "", "", UserType.ADMIN);
+        product.setUser(user);
+
+        if (file.isEmpty()) { //If the image file is null, then the image is not updated
+            //get the name of the image in the db
+            Optional<Product> optionalProduct = productService.getProduct(product.getId());
+            String nameImage = optionalProduct.get().getImage();
+
+            //Saves the image name in our product object.
+            product.setImage(nameImage);
+            LOGGER.info("Product to be update: {}", product);
+        } else {//if the image is not null, then the image is updated
+
+            // Image Upload to File System
+            // Invokes the service to save the image to the file system.
+            // Parameters:
+            //   - file: The image file to be uploaded, represented as a MultipartFile object.
+            // Returns:
+            //   - nameImage: The name of the saved image file
+            String nameImage = uploadFileService.saveImage(file);
+
+            //if the image is being updated, delete the old image
+            Product p = new Product();
+            p = productService.getProduct(product.getId()).get();
+            //delete image
+            if (!p.getName().equals("default.jpg")) {
+                uploadFileService.deleteImage(p.getImage());
+            }
+
+
+            //Saves the image name in our product object.
+            product.setImage(nameImage);
+            LOGGER.info("Product to be update: {}", product);
+
+        }
+
+        productService.saveProduct(product);
+
+        return "redirect:/products";
+    }
+
 
     /**
      * Controller method handling GET requests to delete a product by ID.
@@ -123,23 +193,21 @@ public class ProductController {
      */
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
-        // This method is triggered when a GET request is made to the "/delete/{id}" route.
 
+        Product p = new Product();
+        p = productService.getProduct(id).get();
+        //delete image
+        if (!p.getImage().equals("default.jpg")) {
+            uploadFileService.deleteImage(p.getImage());
+        }
         // Logs information in the LOGGER indicating the ID of the product to be deleted.
-        LOGGER.info("Product ID displayed for delete {}", id);
-
+        LOGGER.info("Product ID displayed for delete {}", p);
         // Calls the deleteProduct method of the productService to delete the product with the provided ID.
         productService.deleteProduct(id);
 
         // Returns a string indicating a redirect to the "/products" route after successfully deleting the product.
         return "redirect:/products";
     }
-
-
-
-
-
-
 
 
 }
