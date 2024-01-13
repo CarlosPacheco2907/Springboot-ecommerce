@@ -142,17 +142,16 @@ public class ProductController {
      */
     @PostMapping("/update")
     public String update(@ModelAttribute("product") Product product, @RequestParam("img") MultipartFile file) throws IOException {
-        // Creates a sample user with UserType.ADMIN
-        User user = new User(1, "", "", "", "", "", "", UserType.ADMIN);
-        product.setUser(user);
+        Optional<Product> optionalProduct = productService.getProduct(product.getId());
+        Product p = new Product();
+
+        //get the product in our bd
+        p = productService.getProduct(product.getId()).get();
 
         if (file.isEmpty()) { //If the image file is null, then the image is not updated
-            //get the name of the image in the db
-            Optional<Product> optionalProduct = productService.getProduct(product.getId());
-            String nameImage = optionalProduct.get().getImage();
 
             //Saves the image name in our product object.
-            product.setImage(nameImage);
+            product.setImage(p.getImage());
             LOGGER.info("Product to be update: {}", product);
         } else {//if the image is not null, then the image is updated
 
@@ -165,20 +164,18 @@ public class ProductController {
             String nameImage = uploadFileService.saveImage(file);
 
             //if the image is being updated, delete the old image
-            Product p = new Product();
-            p = productService.getProduct(product.getId()).get();
             //delete image
             if (!p.getName().equals("default.jpg")) {
                 uploadFileService.deleteImage(p.getImage());
             }
-
-
             //Saves the image name in our product object.
             product.setImage(nameImage);
             LOGGER.info("Product to be update: {}", product);
-
         }
 
+
+
+        product.setUser(p.getUser());
         productService.saveProduct(product);
 
         return "redirect:/products";

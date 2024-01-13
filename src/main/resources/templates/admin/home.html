@@ -20,7 +20,6 @@
     <link th:href="@{/css/cards.css}" rel="stylesheet">
 
 
-
 </head>
 
 <body>
@@ -59,25 +58,21 @@
                 </div>-->
 
 
-        <!--        cards-->
+    <!--        cards-->
     <div class="row text-center ">
-
         <div class="card h-90 col-lg-3 col-md-6 mb-4" th:each="product:${products}">
-
             <div class="imgBox">
-                <img class="img" th:src="@{/images/{img}  (img=${product.image}) }" th:alt="${product.name}" >
+                <img class="img" th:src="@{/images/{img}  (img=${product.image}) }" th:alt="${product.name}">
             </div>
-
-
-
-
             <div class="contentBox">
-                <h3 th:text="${product.name}"></h3>
+                <div>
+                    <h3 th:text="${product.name}"></h3>
+                </div>
                 <a href="#" class="show">Ver producto</a>
             </div>
         </div>
-
     </div>
+
     <!-- /.row -->
 
 </div>
