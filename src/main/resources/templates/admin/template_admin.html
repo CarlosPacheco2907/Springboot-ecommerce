@@ -1,47 +1,78 @@
-<div th:fragment="header">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand" th:href="@{/admin}">Spring eCommerce</a>
-            <form class="form-inline my-2 my-lg-0" method="post"
-                  action="#">
-                <input class="form-control mr-sm-2" type="search"
-                       placeholder="Buscar" aria-label="Search" name="nombre"
-                       autocomplete="off">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-            </form>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
+<div class="top-header-area" id="sticker" th:fragment="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 text-center">
+                <div class="main-menu-wrap">
+                    <!-- logo -->
+                    <div class="site-logo">
+                        <a href="home.html">
+                            <!-- <img src="assets/img/logo.png" alt=""> -->
+                        </a>
+                    </div>
+                    <!-- logo -->
 
-                    <li class="nav-item dropdown">
+                    <!-- menu start -->
+                    <nav class="main-menu">
+                        <ul>
+                            <li class="current-list-item"><a th:href="@{/admin}">Home</a>
 
-                        <a class="nav-link dropdown-toggle" href="#"
-                           id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false">ADMIN</a>
+                            </li>
 
-                        <div class="dropdown-menu"
-                             aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" th:href="@{/products}">Productos</a>
-                        </div>
-                    </li>
+                            <li><a href="#">Admin</a>
+                                <ul class="sub-menu">
+                                    <li><a href="404.html">Productos</a></li>
+                                </ul>
+                            </li>
 
 
-                </ul>
+                            <li>
+                                <div class="header-icons">
+
+                                </div>
+                            </li>
+                        </ul>
+                    </nav>
+                    <a class="mobile-show search-bar-icon" href="#"><i class="fas fa-search"></i></a>
+                    <div class="mobile-menu"></div>
+                    <!-- menu end -->
+                </div>
             </div>
         </div>
-    </nav>
+    </div>
+</div>
+
+<div class="copyright" th:fragment="copyrights">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <p>Copyrights &copy; 2023 - <a href="#">Carlos soto</a>, All Rights Reserved.
+                </p>
+            </div>
+            <div class="col-lg-6 text-right col-md-12">
+                <div class="social-icons">
+                    <ul>
+                        <li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                        <li><a href="#" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+                        <li><a href="#" target="_blank"><i class="fab fa-dribbble"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
-<div th:fragment="footer">
-    <!-- Footer -->
-    <footer class="py-5 bg-dark">
-        <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Spring eCommerce 2023</p>
+<div class="footer-area"th:fragment="footer" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-box about-widget">
+                    <h2 class="widget-title">About us</h2>
+                    <p>Ut enim ad minim veniam perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae.</p>
+                </div>
+            </div>
         </div>
-        <!-- /.container -->
-    </footer>
+    </div>
 </div>
